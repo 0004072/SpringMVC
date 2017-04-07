@@ -1,0 +1,23 @@
+name=PropertiesConfig
+property.filename = logs
+appenders = console, file
+
+appender.console.type = Console
+appender.console.name = STDOUT
+appender.console.layout.type = PatternLayout
+appender.console.layout.pattern = [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+
+appender.rolling.type = RollingfFile
+appender.rolling.name = LOGFILE
+appender.rolling.fileName=/usr/apps/apache/apache-tomcat-8.5.12/logs/springMVC.log
+appender.rolling.layout.type=PatternLayout
+appender.rolling.layout.pattern=[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+
+loggers=file
+logger.rolling.level = info
+logger.rolling.appenderRefs = file
+logger.rolling.appenderRef.rolling.ref = LOGFILE
+
+rootLogger.level = debug
+rootLogger.appenderRefs = stdout
+rootLogger.appenderRef.stdout.ref = STDOUT
