@@ -3,9 +3,7 @@ package com.hsenid.webapps.controller;
 import com.hsenid.webapps.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.properties.PropertiesConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,7 +63,10 @@ public class LoginController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request){
         String destination = "redirect:/home.htm";
-        request.getSession().invalidate();
+        HttpSession session = request.getSession(false);
+        User user = (User)((Map<String, User>)session.getAttribute("user")).get("info");
+        session.invalidate();
+        logger.info(String.format("%s logged out!", user.getUsername()));
         return destination;
     }
 }
